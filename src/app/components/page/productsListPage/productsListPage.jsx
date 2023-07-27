@@ -1,67 +1,85 @@
-import React, { useEffect, useState } from 'react';
-import api from '../../../api';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getProducts } from '../../../store/products';
+import { convertPrice } from '../../../utils/priceConverter';
 import BackHistoryButton from '../../common/backButton';
 import ProductCard from '../../ui/productCard';
 import SearchBar from '../../ui/searchBar';
+import Slider from '../../ui/slider';
 
 const ProductsListPage = () => {
-	const [products, setProducts] = useState([]);
-	const [searchQuery, setSearchQuery] = useState('');
-	useEffect(() => {
-		api.products.fetchAll().then((data) => setProducts(data));
-	}, []);
+	const [searchQuery, setSearchQuery] = useState({
+		name: '',
+		minPrice: 0,
+		maxPrice: 20000,
+	});
+	const products = useSelector(getProducts());
 	function filterProducts() {
+		console.log(searchQuery.name);
 		const filteredProducts =
 			searchQuery !== ''
 				? products.filter(
 						(product) =>
-							product.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !==
-							-1
+							product.name
+								.toLowerCase()
+								.indexOf(searchQuery.name.toLowerCase()) !== -1 &&
+							product.price <= searchQuery.maxPrice &&
+							product.price >= searchQuery.minPrice
 				  )
 				: products;
 		return filteredProducts;
 	}
-	function handleSearchQuery({ target }) {
-		setSearchQuery(target.value);
-	}
+	const handleChange = (target) => {
+		setSearchQuery((prevState) => ({
+			...prevState,
+			[target.name]: target.value,
+		}));
+	};
 	const filteredProducts = filterProducts();
 	return (
-		<div className="block">
-			<div className="shop-container">
-				<BackHistoryButton />
-				<h2 className="category">Все товары</h2>
-				<div className="goods">
-					<div className="filter">
-						<div className="name-filter">
-							<h3>Название</h3>
-							<div className="params">
-								<SearchBar onChange={handleSearchQuery} value={searchQuery} />
-							</div>
-						</div>
-						<hr />
-						<div className="price-filter">
-							<h3>Цена</h3>
-							<div className="params">
-								<p>от 4 999Р до 11 999Р</p>
-								<div className="slider"></div>
-							</div>
+		<>
+			<BackHistoryButton />
+			<h2 className="text-4xl mt-4">Все товары</h2>
+			<div className="mt-4 grid grid-cols-4 gap-[15px]">
+				<div className="bg-white p-6">
+					<div className="name-filter">
+						<h3>Название</h3>
+						<div className="params">
+							<SearchBar
+								onChange={handleChange}
+								value={searchQuery.name}
+								name="name"
+							/>
 						</div>
 					</div>
-
-					{products.length > 0 ? (
-						filteredProducts.length > 0 ? (
-							filteredProducts.map((product) => (
-								<ProductCard product={product} />
-							))
-						) : (
-							<h1>По запросу ничего не найдено</h1>
-						)
-					) : (
-						<h1>Загрузка...</h1>
-					)}
+					<hr />
+					<div className="price-filter">
+						<h3>Цена</h3>
+						<div className="params">
+							<p>
+								от {convertPrice(searchQuery.minPrice)} до{' '}
+								{convertPrice(searchQuery.maxPrice)}
+							</p>
+							<Slider
+								min={searchQuery.minPrice}
+								max={searchQuery.maxPrice}
+								onChange={handleChange}
+							/>
+						</div>
+					</div>
 				</div>
+
+				{products.length > 0 ? (
+					filteredProducts.length > 0 ? (
+						filteredProducts.map((product) => <ProductCard product={product} />)
+					) : (
+						<h1>По запросу ничего не найдено</h1>
+					)
+				) : (
+					<h1>Загрузка...</h1>
+				)}
 			</div>
-		</div>
+		</>
 	);
 };
 

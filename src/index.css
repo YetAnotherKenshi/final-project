@@ -37,6 +37,16 @@ a {
 	color: black;
 }
 
+input[type='range']::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	height: 1.5rem;
+	width: 1.5rem;
+	background-color: rgb(167, 85, 243);
+	cursor: pointer;
+	pointer-events: auto;
+	border-radius: 50%;
+}
+
 .container {
 	margin: 0 150px 0 150px;
 }
@@ -219,7 +229,7 @@ a {
 
 .back {
 	font-size: 22px;
-	margin-top: 50px;
+	margin-top: 20px;
 	padding: 0;
 	border: none;
 	cursor: pointer;
