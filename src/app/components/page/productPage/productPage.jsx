@@ -7,13 +7,12 @@ import { Link, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getProductById } from '../../../store/products';
 import Comments from '../../ui/comments';
-import { getIsLoggedIn } from '../../../store/users';
 import { getComments } from '../../../store/comments';
 import { convertReviewCount } from '../../../utils/reviewCountConverter';
+import ProductAddButton from '../../ui/productAddButton';
 
 const ProductPage = ({ productId }) => {
 	const product = useSelector(getProductById(productId));
-	const isLoggedIn = useSelector(getIsLoggedIn());
 	const comments = useSelector(getComments());
 	const history = useHistory();
 	const handleClick = () => {
@@ -33,27 +32,20 @@ const ProductPage = ({ productId }) => {
 							}}
 							onClick={handleClick}
 						></button>
-						{isLoggedIn ? (
-							'1234'
-						) : (
-							<Link to="/login" className="ml-auto h-10 w-10">
-								<button className="h-10 w-10 bg-white rounded-full"></button>
-							</Link>
-						)}
 					</div>
 					<div className="flex items-center">
-						<Rating rate={product.rate} />
+						<Rating rate={product.rate} max={5} />
 						<p className="ml-2">{convertReviewCount(comments.length)}</p>
 					</div>
-					<div className="grid grid-cols-10 mt-3">
+					<div className="grid grid-cols-10 mt-3 gap-8">
 						<div className="col-span-3">
-							<div className="flex w-96 h-96 bg-white rounded-lg justify-center items-center">
+							<div className="flex w-full h-96 bg-white rounded-lg justify-center items-center">
 								<img src={product.url} className="w-72 h-72" />
 							</div>
 						</div>
 						<div className="col-span-3">
 							<p
-								className={`text-lg ml-4 ${
+								className={`text-lg ${
 									product.quantity > 0 ? 'text-green-600' : 'text-red-500'
 								}`}
 							>
@@ -62,11 +54,9 @@ const ProductPage = ({ productId }) => {
 									: 'Нет в наличии'}
 							</p>
 						</div>
-						<div className="col-end-11 col-span-3 bg-white h-48 rounded-lg p-4">
+						<div className="col-end-11 col-span-3 bg-white h-fit rounded-lg p-4">
 							<p className="text-2xl">{convertPrice(product.price)}</p>
-							<button className="bg-purple-500 p-4 w-full h-16  text-white rounded-md mt-2">
-								Купить
-							</button>
+							<ProductAddButton product={product} full={true} />
 						</div>
 					</div>
 					<Comments />

@@ -18,6 +18,15 @@ const commentService = {
 		});
 		return data;
 	},
+	getCommentsByUser: async (userId) => {
+		const { data } = await httpService.get(commentEndpoint, {
+			params: {
+				orderBy: '"userId"',
+				equalTo: `"${userId}"`,
+			},
+		});
+		return data;
+	},
 	removeComment: async (commentId) => {
 		const { data } = await httpService.delete(commentEndpoint + commentId);
 		return data;

@@ -1,27 +1,16 @@
 import React from 'react';
-import star from '../../star.png';
+import { Star } from '../../utils/icons';
 
-const Rating = ({ rate }) => {
-	const coloredStars = Array(Math.round(rate)).fill(0);
-	const uncoloredStars = Array(5 - Math.round(rate)).fill(0);
+const Rating = ({ rate, max }) => {
+	const fullStars = Array(Math.round(rate)).fill(0);
+	const emptyStars = Array(max - fullStars.length).fill(0);
 	return (
-		<div className="flex gap-[4px] h-4">
-			{coloredStars.map((i) => (
-				<i
-					className="h-4 w-4 bg-cover"
-					style={{
-						backgroundImage: `url(${star})`,
-					}}
-				></i>
+		<div className="flex">
+			{fullStars.map((s) => (
+				<Star fill={true} />
 			))}
-			{uncoloredStars.map((i) => (
-				<i
-					className="h-4 w-4 bg-cover"
-					style={{
-						backgroundImage: `url(${star})`,
-						filter: 'saturate(0)',
-					}}
-				></i>
+			{emptyStars.map((s) => (
+				<Star fill={false} />
 			))}
 		</div>
 	);

@@ -4,7 +4,11 @@ const TextField = ({ label, type = 'text', name, value, onChange, error }) => {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const handleChange = ({ target }) => {
-		onChange({ name: target.name, value: target.value });
+		let value = target.value;
+		if (type === 'number') {
+			Number(value);
+		}
+		onChange({ name: target.name, value });
 	};
 	const toggleShowPassword = () => {
 		setShowPassword((prevState) => !prevState);

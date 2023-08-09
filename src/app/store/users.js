@@ -1,4 +1,5 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
+import { useHistory } from 'react-router-dom';
 import authService from '../services/auth.service';
 import localStorageService from '../services/localStorage.service';
 import userService from '../services/user.service';

@@ -1,5 +1,7 @@
 export function convertReviewCount(reviewCount) {
 	switch (reviewCount) {
+		case 0:
+			return 'Нет отзывов';
 		case 1:
 			return '1 отзыв';
 		case 2:

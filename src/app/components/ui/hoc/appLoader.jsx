@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadCart } from '../../../store/cart';
+import { loadOrder } from '../../../store/orders';
 import {
 	getProductsLoadingStatus,
 	loadProductsList,
@@ -13,9 +13,9 @@ const AppLoader = ({ children }) => {
 	const productsStatus = useSelector(getProductsLoadingStatus());
 	useEffect(() => {
 		dispatch(loadProductsList());
+		dispatch(loadUsersList());
 		if (isLoggedIn) {
-			dispatch(loadUsersList());
-			dispatch(loadCart());
+			dispatch(loadOrder());
 		}
 	}, [isLoggedIn]);
 	if (productsStatus) return 'Loading...';

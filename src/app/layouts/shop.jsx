@@ -6,7 +6,7 @@ import ProductsListPage from '../components/page/productsListPage/productsListPa
 
 const Shop = () => {
 	const params = useParams();
-	const { productId, edit } = params;
+	const { type, productId, edit } = params;
 	return (
 		<>
 			{productId ? (
@@ -16,7 +16,7 @@ const Shop = () => {
 					<ProductPage productId={productId} />
 				)
 			) : (
-				<ProductsListPage />
+				<ProductsListPage type={type} />
 			)}
 		</>
 	);

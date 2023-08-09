@@ -13,11 +13,12 @@ const EditProductPage = ({ productId }) => {
 	const history = useHistory();
 	const product = useSelector(getProductById(productId));
 	useEffect(() => {
-		setData(product);
+		setData({ ...product });
 	}, [product]);
 	const productTypes = {
 		mouse: 'Мышь',
 		keyboard: 'Клавиатура',
+		headphones: 'Наушники',
 	};
 
 	const handleChange = (target) => {
@@ -29,7 +30,7 @@ const EditProductPage = ({ productId }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(updateProduct(data));
-		history.push('/shop');
+		history.push('/shop/all');
 	};
 	return (
 		data && (
@@ -63,6 +64,13 @@ const EditProductPage = ({ productId }) => {
 							label="Количество"
 							name="quantity"
 							value={data.quantity}
+							onChange={handleChange}
+							type="number"
+						/>
+						<TextField
+							label="Рейтинг"
+							name="rate"
+							value={data.rate}
 							onChange={handleChange}
 							type="number"
 						/>

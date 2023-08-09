@@ -20,7 +20,7 @@ const LoginForm = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(login(data));
-		history.push('/shop');
+		history.push('/shop/all');
 	};
 	return (
 		<form

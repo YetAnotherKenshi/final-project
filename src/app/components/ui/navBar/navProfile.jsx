@@ -19,8 +19,16 @@ const NavProfile = () => {
 				</button>
 				{isOpen && (
 					<div className="absolute w-[125%] right-0 mt-6 bg-white rounded-md shadow-lg">
+						<Link to="/user">
+							<button
+								className="w-full text-left py-4 px-6 rounded-t-md hover:bg-gray-100"
+								onClick={() => setOpen(false)}
+							>
+								Профиль
+							</button>
+						</Link>
 						<Link to="/logout">
-							<button className="w-full text-left py-4 px-6 rounded-md hover:bg-gray-100">
+							<button className="w-full text-left py-4 px-6 rounded-b-md hover:bg-gray-100">
 								Выйти
 							</button>
 						</Link>

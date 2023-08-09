@@ -66,5 +66,14 @@ export const getProductById = (id) => (state) => {
 	}
 	return [];
 };
+export const getProductsByIds = (ids) => (state) => {
+	const data = [];
+	for (let product of state.products.entities) {
+		if (ids.includes(product._id)) {
+			data.push(product);
+		}
+	}
+	return data;
+};
 
 export default productsReducer;

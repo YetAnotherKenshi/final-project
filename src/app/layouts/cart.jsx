@@ -1,15 +1,21 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { getEntries } from '../store/cart';
+import { useParams } from 'react-router-dom';
+import CartCheckout from '../components/page/cartCheckout/cartCheckout';
+import CartClosed from '../components/page/cartClosed/cartClosed';
+import CartPage from '../components/page/cartPage/cartPage';
 
 const Cart = () => {
-	const entries = useSelector(getEntries());
-	return (
-		<div>
-			{entries.map((e) => (
-				<p>{e.name}</p>
-			))}
-		</div>
+	const { state } = useParams();
+	return state ? (
+		state === 'checkout' ? (
+			<CartCheckout />
+		) : state === 'closed' ? (
+			<CartClosed />
+		) : (
+			<h1>Not Found</h1>
+		)
+	) : (
+		<CartPage />
 	);
 };
 

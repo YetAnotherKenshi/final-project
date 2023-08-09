@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { getProducts } from '../../../store/products';
+import { getIsLoggedIn } from '../../../store/users';
 import { convertPrice } from '../../../utils/priceConverter';
 import BackHistoryButton from '../../common/backButton';
 import ProductCard from '../../ui/productCard';
 import SearchBar from '../../ui/searchBar';
 import Slider from '../../ui/slider';
 
-const ProductsListPage = () => {
+const ProductsListPage = ({ type }) => {
+	const isLoggedIn = useSelector(getIsLoggedIn());
+	const history = useHistory();
 	const [searchQuery, setSearchQuery] = useState({
 		name: '',
 		minPrice: 0,
@@ -15,19 +19,18 @@ const ProductsListPage = () => {
 	});
 	const products = useSelector(getProducts());
 	function filterProducts() {
-		console.log(searchQuery.name);
-		const filteredProducts =
-			searchQuery !== ''
-				? products.filter(
-						(product) =>
-							product.name
-								.toLowerCase()
-								.indexOf(searchQuery.name.toLowerCase()) !== -1 &&
-							product.price <= searchQuery.maxPrice &&
-							product.price >= searchQuery.minPrice
-				  )
-				: products;
-		return filteredProducts;
+		const filteredProducts = products.filter(
+			(product) =>
+				product.name.toLowerCase().indexOf(searchQuery.name.toLowerCase()) !==
+					-1 &&
+				product.price <= searchQuery.maxPrice &&
+				product.price >= searchQuery.minPrice
+		);
+		return searchQuery !== ''
+			? type !== 'all'
+				? filteredProducts.filter((p) => p.type === type)
+				: filteredProducts
+			: products;
 	}
 	const handleChange = (target) => {
 		setSearchQuery((prevState) => ({

@@ -21,7 +21,7 @@ const RegisterForm = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(signUp(data));
-		history.push('/shop');
+		history.push({ pathname: '/shop/all', state: 'redirect' });
 	};
 	return (
 		<form
