@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getProductById, updateProduct } from "../../../store/products";
 import TextField from "../../common/form/textField";
-import SelectField from "../../common/form/selectField";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import BackHistoryButton from "../../common/backButton";
-import getProductTypes from "../../../utils/productTypes";
+import { getCurrentUserData, updateUser } from "../../../store/users";
 
-const EditProductPage = ({ productId }) => {
+const EditUserPage = ({ productId }) => {
   const [data, setData] = useState();
   const dispatch = useDispatch();
   const history = useHistory();
-  const product = useSelector(getProductById(productId));
+  const user = useSelector(getCurrentUserData());
   useEffect(() => {
-    setData({ ...product });
-  }, [product]);
-  const productTypes = getProductTypes();
+    setData({ ...user });
+  }, [user]);
 
   const handleChange = (target) => {
     setData((prevState) => ({
@@ -26,8 +23,8 @@ const EditProductPage = ({ productId }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateProduct(data));
-    history.push("/shop/all");
+    dispatch(updateUser(data));
+    history.push("/user");
   };
   return (
     data && (
@@ -39,38 +36,16 @@ const EditProductPage = ({ productId }) => {
             className="bg-white p-16 w-1/2 rounded-xl shadow-lg"
           >
             <TextField
-              label="Название"
+              label="Имя"
               name="name"
               value={data.name}
               onChange={handleChange}
             />
             <TextField
-              label="URL"
-              name="url"
-              value={data.url}
+              label="Номер телефона"
+              name="phone"
+              value={data.phone}
               onChange={handleChange}
-            />
-            <TextField
-              label="Цена"
-              name="price"
-              value={data.price}
-              onChange={handleChange}
-              type="number"
-            />
-            <TextField
-              label="Количество"
-              name="quantity"
-              value={data.quantity}
-              onChange={handleChange}
-              type="number"
-            />
-            <SelectField
-              label="Тип товара"
-              defaultOption="Выбрать..."
-              options={productTypes}
-              name="type"
-              onChange={handleChange}
-              value={data.type}
             />
             <button
               type="submit"
@@ -85,4 +60,4 @@ const EditProductPage = ({ productId }) => {
   );
 };
 
-export default EditProductPage;
+export default EditUserPage;

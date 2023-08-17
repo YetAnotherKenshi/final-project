@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { getProductById, updateProduct } from "../../../store/products";
+import React, { useState } from "react";
+import { createProduct } from "../../../store/products";
 import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import BackHistoryButton from "../../common/backButton";
 import getProductTypes from "../../../utils/productTypes";
+import { nanoid } from "@reduxjs/toolkit";
 
-const EditProductPage = ({ productId }) => {
-  const [data, setData] = useState();
+const CreateProductPage = ({ productId }) => {
+  const [error, setError] = useState(null);
+  const [data, setData] = useState({
+    name: "",
+    price: "",
+    quantity: "",
+    type: "",
+    url: "",
+  });
   const dispatch = useDispatch();
   const history = useHistory();
-  const product = useSelector(getProductById(productId));
-  useEffect(() => {
-    setData({ ...product });
-  }, [product]);
   const productTypes = getProductTypes();
 
   const handleChange = (target) => {
@@ -23,11 +26,20 @@ const EditProductPage = ({ productId }) => {
       ...prevState,
       [target.name]: target.value,
     }));
+    setError(null);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateProduct(data));
-    history.push("/shop/all");
+    if (
+      !Object.keys(data)
+        .map((i) => data[i])
+        .includes("")
+    ) {
+      dispatch(createProduct({ ...data, rate: 0, _id: nanoid() }));
+      history.push("/shop/all");
+    } else {
+      setError("Заполнены не все поля");
+    }
   };
   return (
     data && (
@@ -72,6 +84,7 @@ const EditProductPage = ({ productId }) => {
               onChange={handleChange}
               value={data.type}
             />
+            {error && <h1 className="my-2 text-lg text-red-700">{error}</h1>}
             <button
               type="submit"
               className="w-full h-12 bg-purple-500 rounded text-white"
@@ -85,4 +98,4 @@ const EditProductPage = ({ productId }) => {
   );
 };
 
-export default EditProductPage;
+export default CreateProductPage;
