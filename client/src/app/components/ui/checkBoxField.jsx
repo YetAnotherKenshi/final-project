@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import getProductTypes from "../../utils/productTypes";
 
-const CheckBoxField = ({ items, onChange, query, name, newItems }) => {
+const CheckBoxField = ({ items, onChange, query, name }) => {
   const handleChange = ({ target }) => {
     onChange(target, name);
-    console.log(newItems, target);
   };
   return (
     <div>

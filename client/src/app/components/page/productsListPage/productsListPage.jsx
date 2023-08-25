@@ -6,11 +6,11 @@ import BackHistoryButton from "../../common/backButton";
 import ProductCard from "../../ui/productCard";
 import SearchBar from "../../ui/searchBar";
 import Slider from "../../ui/slider";
-import getProductTypes from "../../../utils/productTypes";
 import CheckBoxField from "../../ui/checkBoxField";
 import _ from "lodash";
 import { ArrowDown, ArrowUp } from "../../../utils/icons";
-import getBrands from "../../../utils/brands";
+import { getBrands } from "../../../store/brands";
+import { getTypes } from "../../../store/types";
 
 const ProductsListPage = ({ type }) => {
   const [searchQuery, setSearchQuery] = useState({
@@ -22,7 +22,8 @@ const ProductsListPage = ({ type }) => {
   });
   const [sortBy, setSortBy] = useState({ path: "price", order: "asc" });
   const products = useSelector(getProducts()) || [];
-  const brands = getBrands();
+  const brands = useSelector(getBrands());
+  const productTypes = useSelector(getTypes());
   function filterProducts() {
     let filteredProducts = products.filter(
       (product) =>
@@ -71,12 +72,13 @@ const ProductsListPage = ({ type }) => {
     [sortBy.path],
     [sortBy.order]
   );
-  const productTypes = getProductTypes();
   return (
     <>
       <BackHistoryButton />
       <h2 className="text-4xl mt-4">
-        {type === "all" ? "Все товары" : productTypes[type][1]}
+        {type === "all"
+          ? "Все товары"
+          : productTypes.find((t) => t._id === type).multipleName}
       </h2>
       <div className="my-4 grid grid-cols-4 gap-[15px]">
         <div className="bg-white p-6 rounded-md h-fit">
@@ -115,9 +117,9 @@ const ProductsListPage = ({ type }) => {
                     name="type"
                     onChange={handleCheckbox}
                     query={searchQuery}
-                    items={Object.keys(productTypes).map((i) => ({
-                      name: i,
-                      label: productTypes[i][0],
+                    items={productTypes.map((t) => ({
+                      name: t._id,
+                      label: t.singleName,
                     }))}
                   />
                 </div>
@@ -132,9 +134,9 @@ const ProductsListPage = ({ type }) => {
                 name="brand"
                 onChange={handleCheckbox}
                 query={searchQuery}
-                items={Object.keys(brands).map((i) => ({
-                  name: i,
-                  label: brands[i],
+                items={brands.map((b) => ({
+                  name: b._id,
+                  label: b.name,
                 }))}
               />
             </div>

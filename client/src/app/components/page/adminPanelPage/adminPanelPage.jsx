@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts, removeProduct } from "../../../store/products";
 import { useHistory } from "react-router-dom";
-import getProductTypes from "../../../utils/productTypes";
 import BackHistoryButton from "../../common/backButton";
 import { convertPrice } from "../../../utils/priceConverter";
+import { getTypes } from "../../../store/types";
 
 const AdminPanelPage = () => {
   const [popup, setPopup] = useState(false);
@@ -12,7 +12,7 @@ const AdminPanelPage = () => {
   const dispatch = useDispatch();
   const products = useSelector(getProducts());
   const history = useHistory();
-  const productTypes = getProductTypes();
+  const productTypes = useSelector(getTypes());
   const handleClick = ({ target }) => {
     history.push(`/shop/all/${target.id}/edit`);
   };
@@ -104,7 +104,8 @@ const AdminPanelPage = () => {
                   )}
                 </th>
                 <th scope="col" className="px-6 py-6 rounded-md">
-                  {productTypes[type][0]}
+                  {productTypes &&
+                    productTypes.find((t) => t._id === type).singleName}
                 </th>
                 <th className="py-6 rounded-md">
                   <button

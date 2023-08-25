@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import ProductCard from "../components/ui/productCard";
 import { getProducts } from "../store/products";
-import { Headphones, Keyboard, Monitor, Mouse, MousePad } from "../utils/icons";
+import { Headphones, Keyboard, Mouse, MousePad } from "../utils/icons";
 
 import CougarLogo from "../logos/Cougar.png";
 import HyperXLogo from "../logos/HyperX.png";
@@ -67,28 +67,28 @@ const Main = () => {
       <div className="grid grid-cols-4 gap-6 mt-4">
         <button
           className="bg-gradient-to-tr from-purple-400 to-purple-500 h-48 rounded-md flex flex-col items-center justify-center"
-          onClick={() => history.push("/shop/mouse")}
+          onClick={() => history.push("/shop/J6uNi8Aq0")}
         >
           <Mouse />
           <p className="text-white text-2xl font-semibold mt-2">Игровые мыши</p>
         </button>
         <button
           className="bg-gradient-to-tr from-blue-300 to-blue-400 h-48 rounded-md flex flex-col items-center justify-center"
-          onClick={() => history.push("/shop/keyboard")}
+          onClick={() => history.push("/shop/J6uNi8Aq1")}
         >
           <Keyboard />
           <p className="text-white text-2xl font-semibold mt-2">Клавиатуры</p>
         </button>
         <button
           className="bg-gradient-to-tr from-purple-400 to-purple-500 h-48 rounded-md flex flex-col items-center justify-center"
-          onClick={() => history.push("/shop/headphones")}
+          onClick={() => history.push("/shop/J6uNi8Aq2")}
         >
           <Headphones />
           <p className="text-white text-2xl font-semibold mt-2">Наушники</p>
         </button>
         <button
           className="bg-gradient-to-tr from-blue-300 to-blue-400 h-48 rounded-md flex flex-col items-center justify-center"
-          onClick={() => history.push("/shop/mousepad")}
+          onClick={() => history.push("/shop/J6uNi8Aq3")}
         >
           <MousePad />
           <p className="text-white text-xl font-semibold mt-2">

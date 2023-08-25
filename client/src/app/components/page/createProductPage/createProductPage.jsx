@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { createProduct } from "../../../store/products";
 import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import BackHistoryButton from "../../common/backButton";
-import getProductTypes from "../../../utils/productTypes";
 import { nanoid } from "@reduxjs/toolkit";
-import getBrands from "../../../utils/brands";
+import { getBrands } from "../../../store/brands";
+import { getTypes } from "../../../store/types";
 
-const CreateProductPage = ({ productId }) => {
+const CreateProductPage = () => {
   const [error, setError] = useState(null);
   const [data, setData] = useState({
     name: "",
@@ -21,9 +21,16 @@ const CreateProductPage = ({ productId }) => {
   });
   const dispatch = useDispatch();
   const history = useHistory();
-  const productTypes = getProductTypes();
-  const newProductTypes = convertProductTypes();
-  const brands = getBrands();
+  const productTypes = useSelector(getTypes());
+  const newProductTypes = productTypes.map((type) => ({
+    label: type.singleName,
+    value: type._id,
+  }));
+  const brands = useSelector(getBrands());
+  const newBrands = brands.map((brand) => ({
+    label: brand.name,
+    value: brand._id,
+  }));
 
   const handleChange = (target) => {
     setData((prevState) => ({
@@ -52,13 +59,6 @@ const CreateProductPage = ({ productId }) => {
       setError("Заполнены не все поля");
     }
   };
-  function convertProductTypes() {
-    const newObject = {};
-    Object.keys(productTypes).forEach(
-      (name) => (newObject[name] = productTypes[name][0])
-    );
-    return newObject;
-  }
   return (
     data && (
       <>
@@ -105,7 +105,7 @@ const CreateProductPage = ({ productId }) => {
             <SelectField
               label="Бренд"
               defaultOption="Выбрать..."
-              options={brands}
+              options={newBrands}
               name="brand"
               onChange={handleChange}
               value={data.brand}

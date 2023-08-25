@@ -1,11 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { getIsLoggedIn } from "../../../store/users";
+import { getCurrentUserData, getIsLoggedIn } from "../../../store/users";
 import NavProfile from "./navProfile";
 
 const NavBar = () => {
   const isLoggedIn = useSelector(getIsLoggedIn());
+  const currentUserData = useSelector(getCurrentUserData());
   const history = useHistory();
   const handleClick = () => {
     history.push("/auth/login");
@@ -18,9 +19,11 @@ const NavBar = () => {
         </Link>
         {isLoggedIn ? (
           <div className="flex items-center">
-            <Link to="/admin" className="mr-8">
-              Админ-панель
-            </Link>
+            {currentUserData?.status === "admin" && (
+              <Link to="/admin" className="mr-8">
+                Админ-панель
+              </Link>
+            )}
             <Link to="/cart" className="mr-8">
               Корзина
             </Link>

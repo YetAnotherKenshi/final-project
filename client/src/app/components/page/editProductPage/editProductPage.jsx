@@ -6,8 +6,8 @@ import SelectField from "../../common/form/selectField";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import BackHistoryButton from "../../common/backButton";
-import getProductTypes from "../../../utils/productTypes";
-import getBrands from "../../../utils/brands";
+import { getBrands } from "../../../store/brands";
+import { getTypes } from "../../../store/types";
 
 const EditProductPage = ({ productId }) => {
   const [data, setData] = useState();
@@ -17,9 +17,16 @@ const EditProductPage = ({ productId }) => {
   useEffect(() => {
     setData({ ...product });
   }, [product]);
-  const productTypes = getProductTypes();
-  const brands = getBrands();
-  const newProductTypes = convertProductTypes();
+  const productTypes = useSelector(getTypes());
+  const newProductTypes = productTypes.map((type) => ({
+    label: type.singleName,
+    value: type._id,
+  }));
+  const brands = useSelector(getBrands());
+  const newBrands = brands.map((brand) => ({
+    label: brand.name,
+    value: brand._id,
+  }));
 
   const handleChange = (target) => {
     setData((prevState) => ({
@@ -85,7 +92,7 @@ const EditProductPage = ({ productId }) => {
             <SelectField
               label="Бренд"
               defaultOption="Выбрать..."
-              options={brands}
+              options={newBrands}
               name="brand"
               onChange={handleChange}
               value={data.brand}

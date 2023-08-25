@@ -1,0 +1,18 @@
+[
+  { "_id": "J6uNi8Aq0", "singleName": "Мышь", "multipleName": "Игровые мыши" },
+  {
+    "_id": "J6uNi8Aq1",
+    "singleName": "Клавиатура",
+    "multipleName": "Игровые клавиатуры"
+  },
+  {
+    "_id": "J6uNi8Aq2",
+    "singleName": "Наушники",
+    "multipleName": "Игровые наушники"
+  },
+  {
+    "_id": "J6uNi8Aq3",
+    "singleName": "Коврик для мыши",
+    "multipleName": "Коврики для мыши"
+  }
+]
