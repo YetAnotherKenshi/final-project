@@ -1,22 +1,22 @@
-// const Product = require("../models/Product");
+const Product = require("../models/Product");
 const Type = require("../models/Type");
 const Brand = require("../models/Brand");
-// const productsMock = require("../mock/products.json");
+const productsMock = require("../mock/products.json");
 const typesMock = require("../mock/types.json");
 const brandsMock = require("../mock/brands.json");
 
 module.exports = async () => {
-  // const products = await Product.find();
+  const products = await Product.find();
   const types = await Type.find();
   const brands = await Brand.find();
-  // if (products.length !== productsMock.length) {
-  //   await createInitialEntity(Product, productsMock);
-  // }
   if (types.length !== typesMock.length) {
     await createInitialEntity(Type, typesMock);
   }
   if (brands.length !== brandsMock.length) {
     await createInitialEntity(Brand, brandsMock);
+  }
+  if (products.length !== productsMock.length) {
+    await createInitialEntity(Product, productsMock);
   }
 };
 
