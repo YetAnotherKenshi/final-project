@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { deleteOrder, getOrders } from "../../../store/orders";
+import { removeOrder, getOrders } from "../../../store/orders";
 import { getProductsByIds, updateProduct } from "../../../store/products";
 import { convertPrice } from "../../../utils/priceConverter";
 import BackHistoryButton from "../../common/backButton";
@@ -16,7 +16,6 @@ const CartPage = () => {
   const countPrice = () => {
     let init = 0;
     for (let i = 0; i < currentOrder.length; i++) {
-      console.log(currentOrder);
       init += price[i] * currentOrder[i][1];
     }
     return init;
@@ -29,7 +28,7 @@ const CartPage = () => {
 
   const handleClick = () => {
     currentOrder.map((p) => decreaseValue(p));
-    dispatch(deleteOrder());
+    dispatch(removeOrder());
     history.push("/cart/checkout");
   };
   return (

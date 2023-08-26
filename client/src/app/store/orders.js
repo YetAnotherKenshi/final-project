@@ -7,24 +7,37 @@ const ordersSlice = createSlice({
   initialState: {
     entities: [],
     isLoading: true,
+    error: null,
   },
   reducers: {
     orderRequested: (state) => {
       state.isLoading = true;
     },
-    orderRequestFailed: (state) => {
-      state.isLoading = false;
-    },
     orderReceived: (state, action) => {
       state.entities = action.payload.content;
+      state.isLoading = false;
+    },
+    orderRequestFailed: (state, action) => {
+      state.error = action.payload;
+      state.isLoading = false;
     },
     orderCreated: (state, action) => {
       state.entities = [...action.payload.content];
-
-      state.isLoading = false;
+    },
+    orderCreationFailed: (state, action) => {
+      state.error = action.payload;
     },
     orderUpdated: (state, action) => {
       state.entities = action.payload.content;
+    },
+    orderUpdateFailed: (state, action) => {
+      state.error = action.payload;
+    },
+    orderRemoved: (state) => {
+      state.entities = [];
+    },
+    orderRemovalFailed: (state, action) => {
+      state.error = action.payload;
     },
   },
 });
@@ -36,10 +49,15 @@ const {
   orderReceived,
   orderCreated,
   orderUpdated,
+  orderCreationFailed,
+  orderUpdateFailed,
+  orderRemoved,
+  orderRemovalFailed,
 } = actions;
 
 const orderCreationRequested = createAction("orders/orderCreationRequested");
-const orderCreationFailed = createAction("orders/orderCreationFailed");
+const orderUpdateRequested = createAction("orders/orderUpdateRequested");
+const orderRemovalRequested = createAction("orders/orderRemovalRequested");
 
 export const loadOrder = () => async (dispatch, getState) => {
   dispatch(orderRequested());
@@ -69,59 +87,41 @@ export const createOrder = (payload) => async (dispatch, getState) => {
 };
 
 export const updateOrder = (id, type) => async (dispatch, getState) => {
-  dispatch(orderCreationRequested());
   const currentOrder = [...getState().orders.entities];
   const productIndex = currentOrder.findIndex((i) => i[0] === id);
-  const product = [...currentOrder[productIndex]];
+  const product = type !== "add" && [...currentOrder[productIndex]];
   if (type === "increment") {
-    product.push(product.pop(product.length - 1) + 1);
+    dispatch(orderUpdateRequested());
+    product.push(Number(product.pop(product[1])) + 1);
     currentOrder.splice(productIndex, 1, product);
   } else if (type === "decrement") {
-    product.push(product.pop(product.length - 1) - 1);
+    dispatch(orderUpdateRequested());
+    product.push(Number(product.pop(product[1])) - 1);
     currentOrder.splice(productIndex, 1, product);
-  } else if (type === "delete") {
-    if (currentOrder.length !== 0) {
-      currentOrder.splice(productIndex, 1);
-    }
+  } else if (type === "add") {
+    dispatch(orderUpdateRequested());
+    currentOrder.push([id, 1]);
   }
-  console.log(currentOrder);
   try {
-    if (currentOrder.length > 0) {
-      const { content } = await orderService.update({
-        _id: getCurrentUserId()(getState()),
-        content: currentOrder,
-      });
-      dispatch(orderUpdated(content));
-    } else if (currentOrder.length === 0) {
-      const { content } = await orderService.delete();
-      if (content === null) {
-        dispatch(
-          orderUpdated({
-            _id: getCurrentUserId()(getState()),
-            content: [],
-          })
-        );
-      }
-    }
+    const { content } = await orderService.update({
+      _id: getCurrentUserId()(getState()),
+      content: currentOrder,
+    });
+    dispatch(orderUpdated(content));
   } catch (error) {
-    dispatch(orderCreationFailed(error.message));
+    dispatch(orderUpdateFailed(error.message));
   }
 };
 
-export const deleteOrder = () => async (dispatch, getState) => {
-  dispatch(orderCreationRequested());
+export const removeOrder = () => async (dispatch, getState) => {
+  dispatch(orderRemovalRequested());
   try {
     const { content } = await orderService.delete();
-    if (content === null) {
-      dispatch(
-        orderUpdated({
-          _id: getCurrentUserId()(getState()),
-          content: [],
-        })
-      );
+    if (!content) {
+      dispatch(orderRemoved());
     }
   } catch (error) {
-    dispatch(orderCreationFailed(error.message));
+    dispatch(orderRemovalFailed(error.message));
   }
 };
 

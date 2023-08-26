@@ -47,6 +47,12 @@ const EditUserPage = ({ productId }) => {
               value={data.phone}
               onChange={handleChange}
             />
+            <TextField
+              label="О себе"
+              name="about"
+              value={data.about}
+              onChange={handleChange}
+            />
             <button
               type="submit"
               className="w-full h-12 bg-purple-500 rounded text-white"

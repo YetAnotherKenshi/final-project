@@ -4,9 +4,9 @@ import { getProducts } from "../../../store/products";
 import { convertPrice } from "../../../utils/priceConverter";
 import BackHistoryButton from "../../common/backButton";
 import ProductCard from "../../ui/productCard";
-import SearchBar from "../../ui/searchBar";
-import Slider from "../../ui/slider";
-import CheckBoxField from "../../ui/checkBoxField";
+import SearchBar from "../../ui/filter/searchBar";
+import Slider from "../../ui/filter/slider";
+import CheckBoxField from "../../ui/filter/checkBoxField";
 import _ from "lodash";
 import { ArrowDown, ArrowUp } from "../../../utils/icons";
 import { getBrands } from "../../../store/brands";
@@ -66,6 +66,7 @@ const ProductsListPage = ({ type }) => {
       setSortBy({ path, order: "asc" });
     }
   };
+  console.log(productTypes);
   const filteredProducts = filterProducts();
   const sortedProducts = _.orderBy(
     filteredProducts,
@@ -78,7 +79,7 @@ const ProductsListPage = ({ type }) => {
       <h2 className="text-4xl mt-4">
         {type === "all"
           ? "Все товары"
-          : productTypes.find((t) => t._id === type).multipleName}
+          : productTypes.find((t) => t._id === type)?.multipleName}
       </h2>
       <div className="my-4 grid grid-cols-4 gap-[15px]">
         <div className="bg-white p-6 rounded-md h-fit">

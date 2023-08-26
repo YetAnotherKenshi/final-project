@@ -1,4 +1,4 @@
-import { createAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import brandService from "../services/brand.service";
 const brandsSlice = createSlice({
   name: "brands",

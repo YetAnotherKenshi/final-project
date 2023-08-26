@@ -8,6 +8,7 @@ import { getCurrentUserData } from "../../../store/users";
 import BackHistoryButton from "../../common/backButton";
 import Rating from "../../ui/rating";
 import { Link } from "react-router-dom";
+import { convertReviewCount } from "../../../utils/reviewCountConverter";
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const UserPage = () => {
   const products = useSelector(getProducts());
   useEffect(() => {
     dispatch(loadCommentsByUser(currentUser._id));
+    console.log(comments);
   }, []);
   return (
     <div>
@@ -31,8 +33,20 @@ const UserPage = () => {
             </div>
             <div className="col-span-9 bg-white p-8 rounded">
               <p className="text-3xl">{currentUser.name}</p>
-              <p className="text-2xl mt-4">На сайте с 23 февраля 2022 года</p>
-              <p className="text-2xl mt-2">{comments.length} отзывов</p>
+              <p className="text-2xl mt-4 text-neutral-600">
+                {currentUser.about}
+              </p>
+              <p className="text-2xl mt-4">
+                На сайте с{" "}
+                {new Date(currentUser.createdAt).toLocaleDateString("ru", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+              <p className="text-2xl mt-2">
+                {convertReviewCount(comments.length)}
+              </p>
               <p className="text-2xl mt-2 text-neutral-600">
                 {currentUser?.email}
               </p>

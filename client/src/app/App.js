@@ -9,6 +9,7 @@ import LogOut from "./layouts/logOut";
 import Main from "./layouts/main";
 import Shop from "./layouts/shop";
 import User from "./layouts/user";
+import ProtectedRoute from "./components/common/protectedRoute";
 
 function App() {
   return (
@@ -19,10 +20,10 @@ function App() {
           <Switch>
             <Route exact path="/" component={Main} />
             <Route path="/shop/:type/:productId?/:edit?" component={Shop} />
-            <Route path="/admin/:type?" component={AdminPanel} />
+            <ProtectedRoute path="/admin/:type?" component={AdminPanel} />
             <Route path="/auth" component={Auth} />
             <Route path="/logout" component={LogOut} />
-            <Route path="/cart/:state?" component={Cart} />
+            <ProtectedRoute path="/cart/:state?" component={Cart} />
             <Route path="/user/:edit?" component={User} />
           </Switch>
         </div>

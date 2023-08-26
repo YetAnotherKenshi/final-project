@@ -1,4 +1,4 @@
 {
-	"apiEndpoint": "https://esports-react-shop-default-rtdb.europe-west1.firebasedatabase.app/",
-	"isFireBase": true
+  "apiEndpoint": "http://94.228.120.51/api/",
+  "isFireBase": false
 }

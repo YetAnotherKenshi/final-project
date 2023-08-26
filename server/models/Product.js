@@ -8,12 +8,18 @@ const schema = new Schema(
     url: {
       type: String,
     },
-    brand: { type: String },
-    type: { type: String },
     date: Number,
     price: Number,
     quantity: Number,
     rate: Number,
+    brand: {
+      type: Schema.Types.ObjectId,
+      ref: "Brand",
+    },
+    type: {
+      type: Schema.Types.ObjectId,
+      ref: "Type",
+    },
   },
   { timestamps: true }
 );

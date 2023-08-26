@@ -14,7 +14,7 @@ import ZowieLogo from "../logos/Zowie.png";
 
 const Main = () => {
   const history = useHistory();
-  const products = useSelector(getProducts());
+  const products = useSelector(getProducts()) || [];
   const productsSlice = products
     .toSorted(() => Math.random() - 0.5)
     .slice(0, 4);
@@ -67,28 +67,28 @@ const Main = () => {
       <div className="grid grid-cols-4 gap-6 mt-4">
         <button
           className="bg-gradient-to-tr from-purple-400 to-purple-500 h-48 rounded-md flex flex-col items-center justify-center"
-          onClick={() => history.push("/shop/J6uNi8Aq0")}
+          onClick={() => history.push("/shop/64e7c0468f2d6f0646821918")}
         >
           <Mouse />
           <p className="text-white text-2xl font-semibold mt-2">Игровые мыши</p>
         </button>
         <button
           className="bg-gradient-to-tr from-blue-300 to-blue-400 h-48 rounded-md flex flex-col items-center justify-center"
-          onClick={() => history.push("/shop/J6uNi8Aq1")}
+          onClick={() => history.push("/shop/64e7c0468f2d6f0646821919")}
         >
           <Keyboard />
           <p className="text-white text-2xl font-semibold mt-2">Клавиатуры</p>
         </button>
         <button
           className="bg-gradient-to-tr from-purple-400 to-purple-500 h-48 rounded-md flex flex-col items-center justify-center"
-          onClick={() => history.push("/shop/J6uNi8Aq2")}
+          onClick={() => history.push("/shop/64e7c0468f2d6f064682191a")}
         >
           <Headphones />
           <p className="text-white text-2xl font-semibold mt-2">Наушники</p>
         </button>
         <button
           className="bg-gradient-to-tr from-blue-300 to-blue-400 h-48 rounded-md flex flex-col items-center justify-center"
-          onClick={() => history.push("/shop/J6uNi8Aq3")}
+          onClick={() => history.push("/shop/64e7c0468f2d6f064682191b")}
         >
           <MousePad />
           <p className="text-white text-xl font-semibold mt-2">

@@ -1,10 +1,8 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
-import { useHistory } from "react-router-dom";
 import authService from "../services/auth.service";
 import localStorageService from "../services/localStorage.service";
 import userService from "../services/user.service";
 import { generateAuthError } from "../utils/genetateAuthError";
-import getRandomInt from "../utils/getRandomInt";
 import history from "../utils/history";
 
 const initialState = localStorageService.getAccessToken()
@@ -48,12 +46,6 @@ const usersSlice = createSlice({
     authRequestFailed: (state, action) => {
       state.error = action.payload;
     },
-    userCreated: (state, action) => {
-      if (!Array.isArray(state.entities)) {
-        state.entities = [];
-      }
-      state.entities.push(action.payload);
-    },
     userLoggedOut: (state) => {
       state.auth = null;
       state.isLoggedIn = false;
@@ -78,78 +70,50 @@ const {
   usersRequestFailed,
   authRequestSuccessed,
   authRequestFailed,
-  userCreated,
   userLoggedOut,
   userUpdated,
   authRequested,
 } = actions;
 
-const userCreationRequested = createAction("users/userCreationRequested");
-const userCreationFailed = createAction("users/userCreationFailed");
 const userUpdateRequested = createAction("users/userUpdateRequested");
 const userUpdateFailed = createAction("users/userUpdateFailed");
 
-export const login = (payload) => async (dispatch) => {
-  const { email, password } = payload;
-  dispatch(authRequested());
-  try {
-    const data = await authService.login({ email, password });
-    dispatch(authRequestSuccessed({ userId: data.localId }));
-    localStorageService.setTokens(data);
-  } catch (error) {
-    const { code, message } = error.response.data.error;
-    if (code === 400) {
-      const errorMessage = generateAuthError(message);
-      dispatch(authRequestFailed(errorMessage));
-    } else {
-      dispatch(authRequestFailed(error.message));
-    }
-  }
-};
-
-export const signUp =
-  ({ email, password, ...rest }) =>
+export const login =
+  ({ payload, redirect }) =>
   async (dispatch) => {
+    const { email, password } = payload;
     dispatch(authRequested());
     try {
-      const data = await authService.register({ email, password });
+      const data = await authService.login({ email, password });
       localStorageService.setTokens(data);
-      dispatch(authRequestSuccessed({ userId: data.localId }));
-      dispatch(
-        createUser({
-          _id: data.localId,
-          email,
-          image: `https://avatars.dicebear.com/api/avataaars/${(
-            Math.random() + 1
-          )
-            .toString(36)
-            .substring(7)}.svg`,
-          status: "user",
-          ...rest,
-        })
-      );
+      dispatch(authRequestSuccessed({ userId: data.userId }));
+      history.push(redirect);
     } catch (error) {
-      dispatch(authRequestFailed(error.message));
+      const { code, message } = error.response.data.error;
+      if (code === 400) {
+        const errorMessage = generateAuthError(message);
+        dispatch(authRequestFailed(errorMessage));
+      } else {
+        dispatch(authRequestFailed(error.message));
+      }
     }
   };
+
+export const signUp = (payload) => async (dispatch) => {
+  dispatch(authRequested());
+  try {
+    const data = await authService.register(payload);
+    localStorageService.setTokens(data);
+    dispatch(authRequestSuccessed({ userId: data.userId }));
+  } catch (error) {
+    dispatch(authRequestFailed(error.message));
+  }
+};
 
 export const logOut = () => (dispatch) => {
   localStorageService.removeAuthData();
   dispatch(userLoggedOut());
 };
-
-function createUser(payload) {
-  return async function (dispatch) {
-    dispatch(userCreationRequested());
-    try {
-      const { content } = await userService.create(payload);
-      dispatch(userCreated(content));
-    } catch (error) {
-      dispatch(userCreationFailed(error.message));
-    }
-  };
-}
-
 export const updateUser = (payload) => async (dispatch) => {
   dispatch(userUpdateRequested());
   try {

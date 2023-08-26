@@ -32,13 +32,14 @@ router.delete("/:commentId", auth, async (req, res) => {
     const { commentId } = req.params;
     const removedComment = await Comment.findById(commentId);
 
-    if (removedComment === req.user._id) {
-      await removedComment.remove();
+    if (removedComment.userId.toString() === req.user._id) {
+      await removedComment.deleteOne();
       return res.send(null);
     } else {
-      return res.status(401).json({ message: "Unauthosrized" });
+      return res.status(401).json({ message: "Unauthorized" });
     }
   } catch (error) {
+    console.log(error.message);
     res.status(500).json("На сервере произошла ошибка. Попробуйте позже");
   }
 });

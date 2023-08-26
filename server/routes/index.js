@@ -19,4 +19,7 @@ router.use("/product", require("./product.routes"));
 // api/comment/
 router.use("/comment", require("./comment.routes"));
 
+// api/order/
+router.use("/order", require("./order.routes"));
+
 module.exports = router;

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import getProductTypes from "../../utils/productTypes";
+import React from "react";
 
 const CheckBoxField = ({ items, onChange, query, name }) => {
   const handleChange = ({ target }) => {
