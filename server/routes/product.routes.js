@@ -52,12 +52,8 @@ router
     try {
       const { productId } = req.params;
       const removedProduct = await Product.findById(productId);
-      if (removedProduct.userId.toString() === req.user._id) {
-        await removedProduct.deleteOne();
-        return res.send(null);
-      } else {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
+      await removedProduct.deleteOne();
+      return res.send(null);
     } catch (error) {
       res.status(500).json("На сервере произошла ошибка. Попробуйте позже");
     }
