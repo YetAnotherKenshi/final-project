@@ -85,7 +85,7 @@ export const removeProduct = (productId) => async (dispatch) => {
   dispatch(productRemoveRequested());
   try {
     const { content } = await productService.remove(productId);
-    if (content === null) {
+    if (!content) {
       dispatch(productRemoved(productId));
     }
   } catch (error) {

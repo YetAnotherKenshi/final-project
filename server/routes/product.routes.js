@@ -22,6 +22,15 @@ router
       res.status(500).json("На сервере произошла ошибка. Попробуйте позже");
     }
   })
+  .post(auth, async (req, res) => {
+    try {
+      const newProduct = await Product.create(req.body);
+      res.status(201).send(newProduct);
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).json("На сервере произошла ошибка. Попробуйте позже");
+    }
+  })
   .patch(async (req, res) => {
     try {
       const { productId } = req.params;
@@ -37,6 +46,19 @@ router
     } catch (error) {
       res.status(500).json("На сервере произошла ошибка. Попробуйте позже");
     }
+  })
+  .delete(auth, async (req, res) => {
+    try {
+      const { productId } = req.params;
+      const removedProduct = await Product.findById(productId);
+      if (removedProduct.userId.toString() === req.user._id) {
+        await removedProduct.deleteOne();
+        return res.send(null);
+      } else {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+    } catch (error) {
+      res.status(500).json("На сервере произошла ошибка. Попробуйте позже");
+    }
   });
-
 module.exports = router;
