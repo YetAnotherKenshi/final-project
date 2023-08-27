@@ -42,8 +42,8 @@ const CreateProductPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
-      !Object.keys(data)
-        .map((i) => data[i])
+      !Object.values(data)
+        .map((i) => typeof i === "string" && i.trim())
         .includes("")
     ) {
       dispatch(
@@ -51,7 +51,6 @@ const CreateProductPage = () => {
           ...data,
           rate: 0,
           _id: nanoid(),
-          date: new Date().getTime(),
         })
       );
       history.push("/admin");
@@ -110,7 +109,7 @@ const CreateProductPage = () => {
               onChange={handleChange}
               value={data.brand}
             />
-            {error && <h1 className="my-2 text-lg text-red-700">{error}</h1>}
+            {error && <p className="text-red-500">{error}</p>}
             <button
               type="submit"
               className="w-full h-12 bg-purple-500 rounded text-white"

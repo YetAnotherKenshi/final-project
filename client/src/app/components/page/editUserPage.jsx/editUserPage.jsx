@@ -6,7 +6,8 @@ import { useHistory } from "react-router-dom";
 import BackHistoryButton from "../../common/backButton";
 import { getCurrentUserData, updateUser } from "../../../store/users";
 
-const EditUserPage = ({ productId }) => {
+const EditUserPage = () => {
+  const [error, setError] = useState(null);
   const [data, setData] = useState();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -20,11 +21,16 @@ const EditUserPage = ({ productId }) => {
       ...prevState,
       [target.name]: target.value,
     }));
+    setError(null);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUser(data));
-    history.push("/user");
+    if (data.name.trim() !== "") {
+      dispatch(updateUser(data));
+      history.push("/user");
+    } else {
+      setError("Не все обязательные поля заполнены");
+    }
   };
   return (
     data && (
@@ -53,6 +59,7 @@ const EditUserPage = ({ productId }) => {
               value={data.about}
               onChange={handleChange}
             />
+            {error && <p className="text-red-500">{error}</p>}
             <button
               type="submit"
               className="w-full h-12 bg-purple-500 rounded text-white"

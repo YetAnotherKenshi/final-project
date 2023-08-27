@@ -10,6 +10,7 @@ import { getBrands } from "../../../store/brands";
 import { getTypes } from "../../../store/types";
 
 const EditProductPage = ({ productId }) => {
+  const [error, setError] = useState(null);
   const [data, setData] = useState();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -33,18 +34,20 @@ const EditProductPage = ({ productId }) => {
       ...prevState,
       [target.name]: target.value,
     }));
+    setError(null);
   };
-  function convertProductTypes() {
-    const newObject = {};
-    Object.keys(productTypes).forEach(
-      (name) => (newObject[name] = productTypes[name][0])
-    );
-    return newObject;
-  }
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateProduct({ ...data, date: new Date().getTime() }));
-    history.push("/shop/all");
+    if (
+      !Object.values(data)
+        .map((i) => typeof i === "string" && i.trim())
+        .includes("")
+    ) {
+      dispatch(updateProduct(data));
+      history.push("/admin");
+    } else {
+      setError("Заполнены не все поля");
+    }
   };
   return (
     data && (
@@ -97,6 +100,7 @@ const EditProductPage = ({ productId }) => {
               onChange={handleChange}
               value={data.brand}
             />
+            {error && <p className="text-red-500">{error}</p>}
             <button
               type="submit"
               className="w-full h-12 bg-purple-500 rounded text-white"

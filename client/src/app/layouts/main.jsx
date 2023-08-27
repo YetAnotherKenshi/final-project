@@ -41,13 +41,12 @@ const Main = () => {
           <img
             src="https://media.steelseriescdn.com/thumbs/catalog/items/61470/97d494a637c740d885afebaa1bff6770.png.500x400_q100_crop-fit_optimize.png"
             alt=""
-            className="object-contain absolute h-2/3 2xl:h-1/2 top-80 -right-40 xl:-right-32 xl:top-56 2xl:-right-48 2xl:top-80
-						 z-0"
+            className="object-contain absolute h-2/3 2xl:h-1/2 top-0 2xl:top-20 right-64 2xl:right-56 opacity-80 z-0"
           />
           <img
             src="https://content.presspage.com/uploads/1500/1920_high-resolution-png-progamingkeyboardbty1us.png?10000"
             alt=""
-            className="object-contain absolute h-2/3 2xl:h-1/2 top-10 right-32 xl:right-64 xl:top-0 2xl:right-32 2xl:top-10 z-10"
+            className="object-contain absolute h-3/5 2xl:h-1/2 top-64 2xl:top-72 -right-20 2xl:-right-32 opacity-70"
           />
         </div>
       </div>

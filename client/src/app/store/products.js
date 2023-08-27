@@ -1,5 +1,6 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
 import productService from "../services/product.service";
+
 const productsSlice = createSlice({
   name: "products",
   initialState: {

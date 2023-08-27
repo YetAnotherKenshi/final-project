@@ -21,7 +21,11 @@ const CartProductCard = ({ product }) => {
   return (
     <div className="flex bg-white py-8 px-10 justify-between rounded-md mb-4">
       <div className="flex items-center">
-        <img src={product.url} alt="" className="w-32 h-32 mr-8" />
+        <img
+          src={product.url}
+          alt=""
+          className="w-32 h-32 mr-8 object-contain"
+        />
         <div>
           <p className="text-xl">{product.name}</p>
           <p className="text-sm text-green-600">

@@ -3,7 +3,7 @@ import { convertPrice } from "../../../utils/priceConverter";
 import BackHistoryButton from "../../common/backButton";
 import Rating from "../../ui/rating";
 import settings from "../../../setting.png";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getProductById } from "../../../store/products";
 import Comments from "../../ui/comments";
@@ -44,7 +44,7 @@ const ProductPage = ({ productId }) => {
           <div className="grid grid-cols-10 mt-3 gap-8">
             <div className="col-span-3">
               <div className="flex w-full h-96 bg-white rounded-lg justify-center items-center">
-                <img src={product.url} className="w-72 h-72" />
+                <img src={product.url} className="w-72 h-72 object-contain" />
               </div>
             </div>
             <div className="col-span-3">
