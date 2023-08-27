@@ -10,7 +10,6 @@ import Main from "./layouts/main";
 import Shop from "./layouts/shop";
 import User from "./layouts/user";
 import ProtectedRoute from "./components/common/protectedRoute";
-import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -29,7 +28,6 @@ function App() {
           </Switch>
         </div>
       </AppLoader>
-      <ToastContainer />
     </div>
   );
 }
