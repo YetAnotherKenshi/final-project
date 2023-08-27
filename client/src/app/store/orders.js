@@ -87,7 +87,7 @@ export const createOrder = (payload) => async (dispatch, getState) => {
 };
 
 export const updateOrder = (id, type) => async (dispatch, getState) => {
-  const currentOrder = [...getState().orders.entities];
+  let currentOrder = [...getState().orders.entities];
   const productIndex = currentOrder.findIndex((i) => i[0] === id);
   const product = type !== "add" && [...currentOrder[productIndex]];
   if (type === "increment") {
@@ -101,6 +101,10 @@ export const updateOrder = (id, type) => async (dispatch, getState) => {
   } else if (type === "add") {
     dispatch(orderUpdateRequested());
     currentOrder.push([id, 1]);
+  } else if (type === "remove") {
+    dispatch(orderUpdateRequested());
+    console.log(currentOrder);
+    currentOrder = currentOrder.filter((i) => i[0] !== id);
   }
   try {
     const { content } = await orderService.update({

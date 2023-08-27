@@ -16,7 +16,6 @@ const ProductAddButton = ({ product, full }) => {
   const history = useHistory();
   const orderProduct = useSelector(getOrderById(product._id));
   const currentOrder = useSelector(getOrders());
-  console.log(product.quantity);
   const handleClick = () => {
     if (isLoggedIn) {
       if (Number(product.quantity) !== 0) {
@@ -39,7 +38,11 @@ const ProductAddButton = ({ product, full }) => {
     if (orderProduct[1] - 1 > 0) {
       dispatch(updateOrder(product._id, "decrement"));
     } else {
-      dispatch(removeOrder());
+      if (currentOrder.length === 1) {
+        dispatch(removeOrder());
+      } else {
+        dispatch(updateOrder(product._id, "remove"));
+      }
     }
   };
   return orderProduct !== null && orderProduct !== undefined ? (

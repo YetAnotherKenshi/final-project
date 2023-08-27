@@ -1,11 +1,17 @@
 import React from "react";
-import { getOrderById, removeOrder, updateOrder } from "../../store/orders";
+import {
+  getOrderById,
+  getOrders,
+  removeOrder,
+  updateOrder,
+} from "../../store/orders";
 import { convertPrice } from "../../utils/priceConverter";
 import { useDispatch, useSelector } from "react-redux";
 
 const CartProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const orderProduct = useSelector(getOrderById(product._id));
+  const currentOrder = useSelector(getOrders());
   const handleIncrement = () => {
     if (Number(orderProduct[1]) + 1 <= product.quantity) {
       dispatch(updateOrder(product._id, "increment"));
@@ -15,7 +21,12 @@ const CartProductCard = ({ product }) => {
     if (orderProduct[1] - 1 > 0) {
       dispatch(updateOrder(product._id, "decrement"));
     } else {
-      dispatch(removeOrder());
+      if (currentOrder.length === 1) {
+        dispatch(removeOrder());
+      } else {
+        console.log(currentOrder.length);
+        dispatch(updateOrder(product._id, "remove"));
+      }
     }
   };
   return (
