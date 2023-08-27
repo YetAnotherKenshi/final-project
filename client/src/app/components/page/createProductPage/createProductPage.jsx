@@ -50,7 +50,6 @@ const CreateProductPage = () => {
         createProduct({
           ...data,
           rate: 0,
-          _id: nanoid(),
         })
       );
       history.push("/admin");
