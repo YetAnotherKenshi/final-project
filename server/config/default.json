@@ -1,6 +1,6 @@
 {
-  "port": 8080,
-  "mongoUri": "mongodb+srv://kenshi:123qweasd@cluster0.vflkns2.mongodb.net/?retryWrites=true&w=majority",
-  "accessSecret": "accessSecret from backend",
-  "refreshSecret": "refreshSecret from backend"
+	"port": 3000,
+	"mongoUri": "mongodb+srv://kenshi:123qweasd@cluster0.vflkns2.mongodb.net/?retryWrites=true&w=majority",
+	"accessSecret": "accessSecret from backend",
+	"refreshSecret": "refreshSecret from backend"
 }

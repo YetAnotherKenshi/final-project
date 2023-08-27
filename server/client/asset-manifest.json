@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0692452a.css",
+    "main.js": "/static/js/main.9b4fd34a.js",
+    "static/js/787.0fe84981.chunk.js": "/static/js/787.0fe84981.chunk.js",
+    "static/media/Cougar.png": "/static/media/Cougar.2ad6477a15af44802140.png",
+    "static/media/Razer.png": "/static/media/Razer.2d639c829e440751f0d1.png",
+    "static/media/HyperX.png": "/static/media/HyperX.92569e8a80842ec28cba.png",
+    "static/media/Steelseries.png": "/static/media/Steelseries.a2d6e80c68c08e2cdd83.png",
+    "static/media/setting.png": "/static/media/setting.5652d534202ea2a3b837.png",
+    "static/media/Logitech.png": "/static/media/Logitech.5f55d0579501b3be414e.png",
+    "static/media/heart.png": "/static/media/heart.a882063e838d335ed3fb.png",
+    "static/media/Zowie.png": "/static/media/Zowie.7e39e18383bc1abcba8a.png",
+    "static/media/star.png": "/static/media/star.3b13f2669c5479b1a572.png",
+    "index.html": "/index.html",
+    "main.0692452a.css.map": "/static/css/main.0692452a.css.map",
+    "main.9b4fd34a.js.map": "/static/js/main.9b4fd34a.js.map",
+    "787.0fe84981.chunk.js.map": "/static/js/787.0fe84981.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0692452a.css",
+    "static/js/main.9b4fd34a.js"
+  ]
+}
